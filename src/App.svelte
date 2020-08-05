@@ -5,19 +5,18 @@
   import Canvas from "./components/Canvas.svelte";
   import AsyncButton from "./components/AsyncButton.svelte";
   import AnalysisResults from "./components/AnalysisResults.svelte";
+  import { results } from "./services/resultStore";
 
   let imageUrl: string;
-  let results: ILine[];
 
   const onFileSelected = (url: string): void => {
     imageUrl = url;
   };
 
-  const analyse = (): Promise<void> => {
-    return extractText().then((data) => {
-      results = data;
-      return;
-    });
+  const analyse = async (): Promise<void> => {
+    const data = await extractText();
+    results.set(data);
+    return;
   };
 </script>
 
@@ -31,14 +30,14 @@
     <div class="container has-text-centered">
       <Canvas {imageUrl} />
     </div>
-    {#if !results}
+    {#if !$results.length}
       <div class="container has-text-centered">
         <AsyncButton text="Analyse" onClick={analyse} />
       </div>
     {:else}
       <div class="container">
         <h3 class="title is-3">Analysis Results</h3>
-        <AnalysisResults {results} />
+        <AnalysisResults />
       </div>
     {/if}
   {/if}
