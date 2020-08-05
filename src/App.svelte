@@ -5,7 +5,7 @@
   import Canvas from "./components/Canvas.svelte";
   import AsyncButton from "./components/AsyncButton.svelte";
   import AnalysisResults from "./components/AnalysisResults.svelte";
-  import { results } from "./services/resultStore";
+  import { results } from "./stores/results";
 
   let imageUrl: string;
 

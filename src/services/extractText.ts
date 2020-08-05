@@ -1,4 +1,4 @@
-import type { IResult } from "./resultStore";
+import type { IResult } from "../stores/results";
 
 export interface ILine {
   boundingBox: number[];

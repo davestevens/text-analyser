@@ -1,6 +1,6 @@
 <script type="ts">
   import type { ILine } from "../services/extractText";
-  import { results } from "../services/resultStore";
+  import { results } from "../stores/results";
   import Tag from "./Tag.svelte";
 </script>
 
