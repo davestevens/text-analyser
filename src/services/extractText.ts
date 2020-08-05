@@ -1,4 +1,4 @@
-import type { IResult } from "../stores/results";
+import type { IResult, IFontSizeCalculation } from "../stores/results";
 
 export interface ILine {
   boundingBox: number[];
@@ -28,6 +28,14 @@ export default async (): Promise<IResult[]> => {
       json?.analyzeResult?.readResults[0]?.lines.map((line, index) => ({
         boundingBox: line.boundingBox,
         color: getColor(index),
+        fontSize: new Promise<IFontSizeCalculation>((resolve) => {
+          setTimeout(() => {
+            resolve({
+              calculatedFontSize: 10,
+              renderedHeight: 8
+            });
+          }, 1000);
+        }),
         text: line.text
       }))
     );

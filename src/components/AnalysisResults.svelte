@@ -2,6 +2,7 @@
   import type { ILine } from "../services/extractText";
   import { results } from "../stores/results";
   import Tag from "./Tag.svelte";
+  import FontSizeCalculation from "./FontSizeCalculation.svelte";
 </script>
 
 <table class="table is-bordered is-striped is-narrow is-fullwidth">
@@ -19,8 +20,7 @@
           <Tag color={result.color} />
           {result.text}
         </td>
-        <td>-</td>
-        <td>-</td>
+        <FontSizeCalculation promise={result.fontSize} />
       </tr>
     {:else}
       <tr>

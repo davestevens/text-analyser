@@ -4,11 +4,11 @@
 
 <style>
   div {
-    width: 2em;
+    width: 1.5em;
     height: 1em;
     border-radius: 1em;
     display: inline-block;
-    vertical-align: middle;
+    margin-bottom: -0.1em;
   }
 </style>
 
