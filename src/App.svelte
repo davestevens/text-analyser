@@ -1,34 +1,45 @@
 <script lang="ts">
-  export let name: string;
+  import extractText from "./services/extractText";
+  import type { ILine } from "./services/extractText";
+  import FileSelector from "./components/FileSelector.svelte";
+  import Canvas from "./components/Canvas.svelte";
+  import AsyncButton from "./components/AsyncButton.svelte";
+  import AnalysisResults from "./components/AnalysisResults.svelte";
+
+  let imageUrl: string;
+  let results: ILine[];
+
+  const onFileSelected = (url: string): void => {
+    imageUrl = url;
+  };
+
+  const analyse = (): Promise<void> => {
+    return extractText().then((data) => {
+      results = data;
+      return;
+    });
+  };
 </script>
 
-<style>
-  main {
-    text-align: center;
-    padding: 1em;
-    max-width: 240px;
-    margin: 0 auto;
-  }
-
-  h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 4em;
-    font-weight: 100;
-  }
-
-  @media (min-width: 640px) {
-    main {
-      max-width: none;
-    }
-  }
-</style>
-
-<main>
-  <h1>Hello {name}!</h1>
-  <p>
-    Visit the
-    <a href="https://svelte.dev/tutorial">Svelte tutorial</a>
-    to learn how to build Svelte apps.
-  </p>
-</main>
+<section class="section">
+  {#if !imageUrl}
+    <div class="container">
+      <h3 class="title is-3">Select an image</h3>
+      <FileSelector {onFileSelected} />
+    </div>
+  {:else}
+    <div class="container has-text-centered">
+      <Canvas {imageUrl} />
+    </div>
+    {#if !results}
+      <div class="container has-text-centered">
+        <AsyncButton text="Analyse" onClick={analyse} />
+      </div>
+    {:else}
+      <div class="container">
+        <h3 class="title is-3">Analysis Results</h3>
+        <AnalysisResults {results} />
+      </div>
+    {/if}
+  {/if}
+</section>
