@@ -1,6 +1,5 @@
 <script lang="ts">
   import extractText from "./services/extractText";
-  import type { ILine } from "./services/extractText";
   import FileSelector from "./components/FileSelector.svelte";
   import Canvas from "./components/Canvas.svelte";
   import AsyncButton from "./components/AsyncButton.svelte";
@@ -8,28 +7,28 @@
   import { results } from "./stores/results";
   import { image } from "./stores/canvas";
 
-  let imageUrl: string;
+  let selectedFile: File;
 
-  const onFileSelected = (url: string): void => {
-    imageUrl = url;
+  const onFileSelected = (file: File): void => {
+    selectedFile = file;
   };
 
   const analyse = async (): Promise<void> => {
-    const data = await extractText($image);
+    const data = await extractText(selectedFile, $image);
     results.set(data);
     return;
   };
 </script>
 
 <section class="section">
-  {#if !imageUrl}
+  {#if !selectedFile}
     <div class="container">
       <h3 class="title is-3">Select an image</h3>
       <FileSelector {onFileSelected} />
     </div>
   {:else}
     <div class="container has-text-centered">
-      <Canvas {imageUrl} />
+      <Canvas imageUrl={URL.createObjectURL(selectedFile)} />
     </div>
     {#if !$results.length}
       <div class="container has-text-centered">

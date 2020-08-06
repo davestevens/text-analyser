@@ -1,9 +1,9 @@
 <script type="ts">
-  export let onFileSelected: (url: string) => void;
+  export let onFileSelected: (file: File) => void;
   let image = null;
 
   const handleChange = (fileList: FileList) => {
-    onFileSelected(URL.createObjectURL(fileList[0]));
+    onFileSelected(fileList[0]);
   };
 </script>
 
