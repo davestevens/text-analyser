@@ -4,46 +4,25 @@
   export let promise: Promise<IFontSizeCalculation>;
   let canvasContainer: HTMLElement;
 
-  onMount(() => {
-    promise.then((data) => {
-      canvasContainer.appendChild(data.canvas);
-    });
+  onMount(async () => {
+    const data = await promise;
+    canvasContainer.appendChild(data.canvas);
   });
 </script>
 
-<td class="is-vcentered">
-  {#await promise}
+{#await promise}
+  <td colspan={4} class="is-vcentered">
     <progress class="progress is-small is-info" />
-  {:then data}
+  </td>
+{:then data}
+  <td>
     <div bind:this={canvasContainer} />
-  {:catch error}
+  </td>
+  <td>{data.renderedHeight}</td>
+  <td>{data.fontSize}</td>
+  <td>{data.bodyHeight}</td>
+{:catch error}
+  <td colspan={4}>
     <span class="has-text-danger">Something broke ({error.message})</span>
-  {/await}
-</td>
-<td class="is-vcentered">
-  {#await promise}
-    <progress class="progress is-small is-info" />
-  {:then data}
-    {data.renderedHeight}
-  {:catch error}
-    <span class="has-text-danger">Something broke ({error.message})</span>
-  {/await}
-</td>
-<td class="is-vcentered">
-  {#await promise}
-    <progress class="progress is-small is-info" />
-  {:then data}
-    {data.fontSize}
-  {:catch error}
-    <span class="has-text-danger">Something broke ({error.message})</span>
-  {/await}
-</td>
-<td class="is-vcentered">
-  {#await promise}
-    <progress class="progress is-small is-info" />
-  {:then data}
-    {data.bodyHeight}
-  {:catch error}
-    <span class="has-text-danger">Something broke ({error.message})</span>
-  {/await}
-</td>
+  </td>
+{/await}
