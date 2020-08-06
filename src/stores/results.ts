@@ -1,9 +1,5 @@
 import { writable } from "svelte/store";
-
-export interface IFontSizeCalculation {
-  calculatedFontSize: number;
-  renderedHeight: number;
-}
+import type { IFontSizeCalculation } from "../services/calculateFontSize";
 
 export interface IResult {
   boundingBox: number[];

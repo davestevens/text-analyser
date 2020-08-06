@@ -1,18 +1,16 @@
 <script type="ts">
   import { onMount } from "svelte";
   import { results } from "../stores/results";
-  import { canvas, context } from "../stores/canvas";
+  import { canvas, context, image } from "../stores/canvas";
   import { BOUNDING_BOX_PADDING, BOUNDING_BOX_BORDER_WIDTH } from "../consts";
+  import limitsFromBoundingBox from "../services/limitsFromBoundingBox";
 
   export let imageUrl: string;
   let canvasElement: HTMLCanvasElement;
 
   const drawBorder = (boundingBox: number[], color: string): void => {
     $context.beginPath();
-    const x1 = Math.min(boundingBox[0], boundingBox[6]) - BOUNDING_BOX_PADDING;
-    const y1 = Math.min(boundingBox[1], boundingBox[3]) - BOUNDING_BOX_PADDING;
-    const x2 = Math.max(boundingBox[2], boundingBox[4]) + BOUNDING_BOX_PADDING;
-    const y2 = Math.max(boundingBox[5], boundingBox[7]) + BOUNDING_BOX_PADDING;
+    const { x1, y1, x2, y2 } = limitsFromBoundingBox(boundingBox);
     $context.moveTo(x1, y1);
     $context.lineTo(x2, y1);
     $context.lineTo(x2, y2);
@@ -26,13 +24,14 @@
   onMount(() => {
     canvas.set(canvasElement);
     context.set(canvasElement.getContext("2d"));
-    const image = new Image();
-    image.onload = () => {
-      canvasElement.width = image.width;
-      canvasElement.height = image.height;
-      $context.drawImage(image, 0, 0);
+    const imageElement = new Image();
+    imageElement.onload = () => {
+      canvasElement.width = imageElement.width;
+      canvasElement.height = imageElement.height;
+      $context.drawImage(imageElement, 0, 0);
+      image.set(imageElement);
     };
-    image.src = imageUrl;
+    imageElement.src = imageUrl;
 
     return results.subscribe((value) => {
       value.forEach((line) => drawBorder(line.boundingBox, line.color));

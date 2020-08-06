@@ -1,4 +1,5 @@
-import type { IResult, IFontSizeCalculation } from "../stores/results";
+import type { IResult } from "../stores/results";
+import calculateFontSize from "./calculateFontSize";
 
 export interface ILine {
   boundingBox: number[];
@@ -10,9 +11,8 @@ const getColor = (index: number): string => {
   return `hsl(${hue}, 80%, 55%)`;
 };
 
-// TODO: image input
 // TODO: request from Azure and wait for response
-export default async (): Promise<IResult[]> => {
+export default async (image: HTMLImageElement): Promise<IResult[]> => {
   const response = await fetch("/azure.response.json");
   if (!response.ok) {
     throw new Error("Something broke");
@@ -28,14 +28,7 @@ export default async (): Promise<IResult[]> => {
       json?.analyzeResult?.readResults[0]?.lines.map((line, index) => ({
         boundingBox: line.boundingBox,
         color: getColor(index),
-        fontSize: new Promise<IFontSizeCalculation>((resolve) => {
-          setTimeout(() => {
-            resolve({
-              calculatedFontSize: 10,
-              renderedHeight: 8
-            });
-          }, 1000);
-        }),
+        fontSize: calculateFontSize(line.text, image, line.boundingBox),
         text: line.text
       }))
     );

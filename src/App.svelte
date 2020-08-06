@@ -6,6 +6,7 @@
   import AsyncButton from "./components/AsyncButton.svelte";
   import AnalysisResults from "./components/AnalysisResults.svelte";
   import { results } from "./stores/results";
+  import { image } from "./stores/canvas";
 
   let imageUrl: string;
 
@@ -14,7 +15,7 @@
   };
 
   const analyse = async (): Promise<void> => {
-    const data = await extractText();
+    const data = await extractText($image);
     results.set(data);
     return;
   };
