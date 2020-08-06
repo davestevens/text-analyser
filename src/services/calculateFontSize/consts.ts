@@ -8,3 +8,5 @@ export const THRESHOLD =
   (RED_PERCENTAGE + GREEN_PERCENTAGE + BLUE_PERCENTAGE);
 export const BLACK = 0;
 export const WHITE = 255;
+export const BODY_HEIGHT_STRING =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";

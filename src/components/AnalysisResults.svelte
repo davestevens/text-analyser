@@ -10,8 +10,9 @@
     <tr>
       <th>Text</th>
       <th>Extracted Section</th>
-      <th>Rendered Height</th>
-      <th>Calculated Font Size</th>
+      <th>Height</th>
+      <th>Font Size</th>
+      <th>Body Height</th>
     </tr>
   </thead>
   <tbody>
@@ -25,7 +26,7 @@
       </tr>
     {:else}
       <tr>
-        <td colspan={4} class="has-text-centered">Empty</td>
+        <td colspan={5} class="has-text-centered">Empty</td>
       </tr>
     {/each}
   </tbody>

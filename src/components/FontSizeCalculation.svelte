@@ -38,3 +38,12 @@
     <span class="has-text-danger">Something broke ({error.message})</span>
   {/await}
 </td>
+<td class="is-vcentered">
+  {#await promise}
+    <progress class="progress is-small is-info" />
+  {:then data}
+    {data.bodyHeight}
+  {:catch error}
+    <span class="has-text-danger">Something broke ({error.message})</span>
+  {/await}
+</td>
